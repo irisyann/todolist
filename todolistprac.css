@@ -1,0 +1,43 @@
+body {
+    background: #8B4513 !important;
+}
+
+.container {
+    max-width: 500px !important;
+}
+
+input[type=text] {
+    max-width: 500px;
+    background:#ffd45e!important;
+    border: 3px solid #472100;
+}
+
+input[type=text]:focus {
+    border: 3px solid white;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white !important;
+    opacity: 0.8 !important; /* Firefox */
+}
+
+li {
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.completed-list {
+    display: none;
+}
+
+.check, .delete {
+    cursor: pointer;
+}
+
+.has-completion, .full-completion, .completed-todos-title {
+    display: none;
+}
+
+.complete-percent {
+    font-size: 30px;
+}
+

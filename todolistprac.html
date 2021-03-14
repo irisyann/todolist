@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="todolistprac.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <title>Todo List</title>
+</head>
+<body>
+    
+    <div class="container name-input-container">
+        <header class="text-center text-light">
+            <h2 class="title mt-5 mb-3">Hello! What's your name?</h2>
+            <form action="" class="name-input">
+                <input type="text" class="form-control mx-auto" name="name">
+            </form>
+        </header>
+    </div>
+
+    <div class="container todoapp d-none">
+        <header class="text-center text-light">
+            <h2 class="title mt-5 mb-3 greeting">🍞 Hey <span></span>! Let's get this bread.</h2>
+        </header>
+
+        <!-- <div>
+            <form action="" class="search mb-3">
+                <input type="text" name="search" class="form-control search mx-auto" placeholder="search">
+            </form>
+        </div> -->
+
+        <div class="mb-3">
+            <!-- <form action="">
+                <ul class="list-group todolist text-light">
+                    <li class="list-group-item">
+                        <input type="checkbox" onclick="completed()">
+                        <label class="todo ml-1">eat cake</label>
+                    </li>
+                    <li class="list-group-item todo" onclick="completed()">
+                        <input type="checkbox">
+                        <label class="todo ml-1">fix printer</label>
+                    </li>
+                    <li class="list-group-item todo" onclick="completed()">
+                        <input type="checkbox">
+                        <label class="todo ml-1">buy notebook</label>
+                    </li>
+                </ul>
+            </form> -->
+            
+            <ul class="list-group todolist text-light">
+                <!-- <li class="list-group-item">
+                    <i class="far fa-check-circle check"></i>
+                    <span class="todo ml-1">eat cake</span>
+                </li>
+                <li class="list-group-item">
+                    <i class="far fa-check-circle check"></i>
+                    <span class="todo ml-1">fix printer</span>
+                </li>
+                <li class="list-group-item">
+                    <i class="far fa-check-circle check"></i>
+                    <span class="todo ml-1">buy notebook</span>
+                </li> -->
+            </ul>
+
+        </div>
+
+        <div class="mb-5">
+            <h5 class="m-2 text-center text-light">Add a new todo!</h5>
+            <form action="" class="add">
+                <input type="text" name="add" class="form-control add mx-auto" placeholder="add a todo">
+            </form>
+        </div>
+
+
+        <div class="completion-message text-center text-light">
+            <p class="zero-completion">You have completed <span class="font-weight-bold complete-percent">0%</span> of your tasks today. Let's get going!</p>
+            <p class="has-completion">Yay! You have completed <span class="font-weight-bold complete-percent">0%</span> of your tasks today.</p>
+            <p class="full-completion">Woohoo! You're <span class="font-weight-bold complete-percent">0%</span> done!</p>
+            <!-- <p>You have completed <span class="font-weight-bold complete-percent">0%</span> of your tasks today. Let's get going!</p> -->
+        </div>
+
+        <div class="text-light mb-5">
+            <h5 class="m-2 text-center completed-todos-title">Completed todos</h5>
+
+            <ul class="completed-list list-group mb-3">
+
+
+            </ul>
+        </div>
+
+    </div>
+    
+    <script src="todolistprac.js"></script>
+</body>
+</html>
