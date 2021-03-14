@@ -18,8 +18,36 @@ inputName.addEventListener('submit', e => {
     document.querySelector('.name-input-container').classList.add('d-none');
     todoapp.classList.remove('d-none');
     todoapp.classList.add('d-block');
+    
+    if (name.toLowerCase() === 'taki') {
+        greeting.textContent = 'Yo STOOPID! Stoopid stoopid stoopid';
 
-    greeting.querySelector('span').textContent = name;
+        const htmlGreeting = `
+        <img src="https://i.imgur.com/5g4xhH7.png" alt="bird" class="bird-img">
+
+        `
+
+        const htmlTodos = `
+        <li class="list-group-item">
+            <i class="far fa-check-circle check"></i>
+            <span class="todo ml-1">Drink water</span>
+        </li>
+        <li class="list-group-item">
+            <i class="far fa-check-circle check"></i>
+            <span class="todo ml-1">Eat roti telur</span>
+        </li>
+        <li class="list-group-item">
+            <i class="far fa-check-circle check"></i>
+            <span class="todo ml-1">Rest more</span>
+        </li>
+        `
+        todoapp.querySelector('.bird-space').innerHTML += htmlGreeting;
+        todolist.innerHTML += htmlTodos;
+        
+    }
+    else {
+        greeting.querySelector('span').textContent = name;
+    }
 
 });
 
