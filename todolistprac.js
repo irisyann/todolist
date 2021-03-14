@@ -36,7 +36,8 @@ inputName.addEventListener('submit', e => {
             <span class="todo ml-1">Take pic send to Iris</span>
         </li>
         `
-
+        totalCount = 3;
+        totalCountDynamic = 3;
         todolist.innerHTML += htmlTodos;
 
     }
@@ -62,6 +63,9 @@ inputName.addEventListener('submit', e => {
             <span class="todo ml-1">Rest more</span>
         </li>
         `
+
+        totalCount = 3;
+        totalCountDynamic = 3;
         todoapp.querySelector('.bird-space').innerHTML += htmlGreeting;
         todolist.innerHTML += htmlTodos;
     }
