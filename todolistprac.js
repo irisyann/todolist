@@ -7,20 +7,52 @@ let totalCount = document.getElementsByClassName('todo').length;
 let totalCountDynamic = document.getElementsByClassName('todo').length;
 const todoapp = document.querySelector('.todoapp');
 const greeting = document.querySelector('.greeting');
+const inputName = document.querySelector('.name-input');
+const inputNameContainer = document.querySelector('.name-input-container');
+
+document.addEventListener('DOMContentLoaded', e => {
+
+    // if there is already a name in the storage, dont display the input name div
+    let name = localStorage.getItem('name');
+    if (name != null) {
+        inputNameContainer.classList.add('d-none');
+        todoapp.classList.add('d-block');
+        greeting.querySelector('span').textContent = name;
+
+        checkName();
+
+        document.querySelector('.name-input-container').classList.add('d-none');
+        todoapp.classList.remove('d-none');
+        todoapp.classList.add('d-block');
+    
+        displayTodos(); // display items when page loads
+        displayCompletedTodos();
+    }
+}); 
+
+const checkName = () => {
+    if (localStorage.getItem('name').toLowerCase().includes('noah')) {
+        greeting.textContent = 'HI PUNDE :> LETS GET SHIT DONE';
+
+    } else if (localStorage.getItem('name').toLowerCase().includes('taki')) {
+        greeting.textContent = 'YO STOOPID! STOOPID STOOPID STOOPID';
+
+    }
+    else {
+        greeting.querySelector('span').textContent = localStorage.getItem('name');
+    }
+}
 
 // get name of user
-const inputName = document.querySelector('.name-input');
 inputName.addEventListener('submit', e => {
     e.preventDefault();
 
     const name = inputName.name.value.trim();
 
-    document.querySelector('.name-input-container').classList.add('d-none');
-    todoapp.classList.remove('d-none');
-    todoapp.classList.add('d-block');
-    
-    if (name.toLowerCase() === 'noah') {
-        greeting.textContent = 'HI PUNDE :> LETS GET SHIT DONE';
+    localStorage.setItem('name', name);  
+
+    checkName();
+    if (localStorage.getItem('name').toLowerCase().includes('noah')) {
 
         const htmlTodos = `
         <li class="list-group-item">
@@ -36,23 +68,19 @@ inputName.addEventListener('submit', e => {
             <span class="todo ml-1">Take pic send to Iris</span>
         </li>
         `
-        totalCount = 3;
-        totalCountDynamic = 3;
-        todolist.innerHTML += htmlTodos;
-
+        var htmlArr = htmlTodos.split("</li>");
+        htmlArr.pop(); // remove last element which is empty because of the way this array is split lol
+        htmlArr.forEach(html => {
+            Store.addTodo(html);
+        })
     }
-    else if (name.toLowerCase() === 'taki') {
-        greeting.textContent = 'Yo STOOPID! Stoopid stoopid stoopid';
 
-        const htmlGreeting = `
-        <img src="https://i.imgur.com/5g4xhH7.png" alt="bird" class="bird-img">
-
-        `
+    else if (localStorage.getItem('name').toLowerCase().includes('taki')) {
 
         const htmlTodos = `
         <li class="list-group-item">
             <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Drink water</span>
+            <span class="todo ml-1">Drink air suam</span>
         </li>
         <li class="list-group-item">
             <i class="far fa-check-circle check"></i>
@@ -60,19 +88,22 @@ inputName.addEventListener('submit', e => {
         </li>
         <li class="list-group-item">
             <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Rest more</span>
+            <span class="todo ml-1">FREAKING REST</span>
         </li>
         `
-
-        totalCount = 3;
-        totalCountDynamic = 3;
-        todoapp.querySelector('.bird-space').innerHTML += htmlGreeting;
-        todolist.innerHTML += htmlTodos;
+        var htmlArr = htmlTodos.split("</li>");
+        htmlArr.pop(); // remove last element which is empty because of the way this array is split lol
+        htmlArr.forEach(html => {
+            Store.addTodo(html);
+        })
     }
-    else {
-        greeting.querySelector('span').textContent = name;
-    }
+    document.querySelector('.name-input-container').classList.add('d-none');
+    todoapp.classList.remove('d-none');
+    todoapp.classList.add('d-block');
 
+    displayTodos(); // display items when page loads
+    displayCompletedTodos();
+    
 });
 
 // add todo item
@@ -83,8 +114,22 @@ const generateTodo = todo => {
         <span class="todo ml-1">${todo}</span>
     </li>
     `
-    todolist.innerHTML += html;
 
+    Store.addTodo(html);
+    const todos = Store.getTodos();
+
+    // add only last item in storage to list
+    todolist.innerHTML += todos[todos.length - 1];
+    
+};
+
+// display all todo items in storage
+const displayTodos = () => {
+    const todos = Store.getTodos();
+
+    todos.forEach(todoHTML => {
+        todolist.innerHTML += todoHTML;
+    });
 };
 
 addForm.addEventListener('submit', e => {
@@ -99,34 +144,18 @@ addForm.addEventListener('submit', e => {
         totalCountDynamic++;
         let completedCount = document.getElementsByClassName('completed-todo').length;
 
-        completionPercentage(totalCount, completedCount, totalCountDynamic);
+        completionPercentage();
     }
 });
 
 // remove item from todolist when checked & move checked todo item to completed list
-// checks.forEach(check => { // iterate through each check
-//     check.addEventListener('click', e => {
-//         check.classList.remove('far');
-//         check.classList.add('fas');
-
-//         const completedTodo = e.target.nextElementSibling.innerHTML; // get text in span (span is sibling of i)
-
-//         generateCompleted(completedTodo);
-
-//         // remove item from todolist when checked, with fade out transition :)
-//         check.parentElement.style.transition = "opacity 0.5s ease-out";
-//         check.parentElement.style.opacity = 0;
-//         setTimeout(() => {
-//             check.parentElement.remove();
-//         }, 800);
-//     });
-// });
-
 todolist.addEventListener('click', e => {
     if (e.target.classList.contains('far')) { // use event delegation instead of iterating through each check
         e.target.classList.remove('far');
         e.target.classList.add('fas');
 
+        Store.removeTodo(e.target.parentElement.querySelector('span').textContent);
+        
         const completedTodo = e.target.nextElementSibling.innerHTML; // get text in span (span is sibling of i)
 
         totalCountDynamic--;
@@ -143,6 +172,17 @@ todolist.addEventListener('click', e => {
     }
 });
 
+
+// display all completed todo items in storage
+const displayCompletedTodos = () => {
+    const completedTodos = Store.getCompletedTodos();
+
+    completedTodos.forEach(completedTodoHTML => {
+        completedList.innerHTML += completedTodoHTML;
+    });
+};
+
+// add item to completed todolist
 const generateCompleted = (totalCountDynamic, completedTodo) => {
     const html = `
     <li class="list-group-item completed-todo d-flex justify-content-between align-items-center">
@@ -151,38 +191,45 @@ const generateCompleted = (totalCountDynamic, completedTodo) => {
     </li>
     `
     completedList.style.display = 'block';
-    completedList.innerHTML += html;
 
-    // let totalCount = document.getElementsByClassName('todo').length;
+    Store.addCompletedTodo(html);
+    const completedTodos = Store.getCompletedTodos();
+
+    // add only last item in storage to list
+    completedList.innerHTML += completedTodos[completedTodos.length - 1];
+
     let completedCount = document.getElementsByClassName('completed-todo').length;
 
-    completionPercentage(totalCount, completedCount, totalCountDynamic);
+    completionPercentage();
 };
 
-// change completion percentage
-const completionPercentage = (totalCount, completedCount, totalCountDynamic) => {
-    console.log(totalCount,completedCount)
-    console.log("dynamic: " + totalCountDynamic);
+// calculate & change completion percentage
+const completionPercentage = () => {
+    const todos = Store.getTodos();
+    const completedTodos = Store.getCompletedTodos();
+
+    totalTodos = todos.length;
+    totalCompleted = completedTodos.length;
+
     const zeroCompletion = document.querySelector('.zero-completion');
     const hasCompletion = document.querySelector('.has-completion');
     const fullCompletion = document.querySelector('.full-completion');
 
-    let completePercent = Math.round((completedCount / totalCount) * 100); // calculate percentage of how many tasks completed
+    // let completePercent = Math.round((totalCompleted / totalTodos) * 100); // calculate percentage of how many tasks completed
 
     zeroCompletion.style.display = 'none';
-    if (completePercent === 0) {
+    if (totalCompleted === 0) {
         zeroCompletion.style.display = 'block';
         hasCompletion.style.display = 'none';
         fullCompletion.style.display = 'none';
         document.querySelector('.completed-todos-title').style.display = 'none';
         
-    } else if (completePercent < 100) {
+    } else if (totalCompleted != 0 && totalTodos != 0) {
         hasCompletion.style.display = 'block';
         fullCompletion.style.display = 'none';
-        document.querySelector('.completed-todos-title').style.display = 'block';
-        hasCompletion.querySelector('span').textContent = `${completePercent}%`;
-        
-    } else if (totalCountDynamic === 0) {
+        document.querySelector('.completed-todos-title').style.display = 'block';        
+    } 
+    else if (totalTodos === 0 && totalCompleted != 0) {
         hasCompletion.style.display = 'none';
         fullCompletion.style.display = 'block';
         document.querySelector('.completed-todos-title').style.display = 'block';
@@ -191,9 +238,44 @@ const completionPercentage = (totalCount, completedCount, totalCountDynamic) => 
     }
 };
 
+// const completionPercentage = (totalCount, completedCount, totalCountDynamic) => {
+//     console.log(totalCount,completedCount)
+//     console.log("dynamic: " + totalCountDynamic);
+//     const zeroCompletion = document.querySelector('.zero-completion');
+//     const hasCompletion = document.querySelector('.has-completion');
+//     const fullCompletion = document.querySelector('.full-completion');
+
+//     let completePercent = Math.round((completedCount / totalCount) * 100); // calculate percentage of how many tasks completed
+
+//     zeroCompletion.style.display = 'none';
+//     if (completePercent === 0) {
+//         zeroCompletion.style.display = 'block';
+//         hasCompletion.style.display = 'none';
+//         fullCompletion.style.display = 'none';
+//         document.querySelector('.completed-todos-title').style.display = 'none';
+        
+//     } else if (completePercent < 100) {
+//         hasCompletion.style.display = 'block';
+//         fullCompletion.style.display = 'none';
+//         document.querySelector('.completed-todos-title').style.display = 'block';
+//         hasCompletion.querySelector('span').textContent = `${completePercent}%`;
+        
+//     } else if (totalCountDynamic === 0) {
+//         hasCompletion.style.display = 'none';
+//         fullCompletion.style.display = 'block';
+//         document.querySelector('.completed-todos-title').style.display = 'block';
+//         fullCompletion.querySelector('span').textContent = `100%`;
+
+//     }
+// };
+
 // remove completed todo from completed list
 completedList.addEventListener('click', e => {
     if (e.target.classList.contains('delete')) {
+
+        Store.removeCompletedTodo(e.target.parentElement.querySelector('span').textContent);
+        // Store.updateTotalTodos();
+
 
         e.target.parentElement.style.transition = "opacity 0.5s ease-out";
         e.target.parentElement.style.opacity = 0;
@@ -208,3 +290,101 @@ completedList.addEventListener('click', e => {
     }
 
 });
+
+// handle local storage
+class Store {
+
+    // get todos from todolist
+    static getTodos() {
+        let todos;
+        if (localStorage.getItem('todos') === null) {
+            todos = [];
+        } else {
+            todos = JSON.parse(localStorage.getItem('todos'));
+        }
+        
+        return todos;
+    }
+
+    // get completed todos from completed list
+    static getCompletedTodos() {
+        
+        let completedTodos;
+        if (localStorage.getItem('completedTodos') === null) {
+            completedTodos = [];
+        } else {
+            completedTodos = JSON.parse(localStorage.getItem('completedTodos'));
+        }
+        return completedTodos;
+    }
+
+    // add new todo
+    static addTodo(todoHTML) {
+        const todos = Store.getTodos();
+        todos.push(todoHTML);
+
+        // Store.updateTotalTodos();
+
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    // move todo to completed list
+    static addCompletedTodo(completedTodoHTML) {
+        const completedTodos = Store.getCompletedTodos();
+        completedTodos.push(completedTodoHTML);
+
+        localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
+    }
+
+    // remove todo from todolist after completed
+    static removeTodo(el) {
+        const todos = Store.getTodos();
+        
+        todos.forEach((todo, index) => {
+            if (todo.includes(el)) {
+                todos.splice(index, 1);
+            } 
+        });
+
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    // remove completed todolist (buang completely)
+    static removeCompletedTodo(el) {
+        const completedTodos = Store.getCompletedTodos();
+
+        completedTodos.forEach((completedTodo, index) => {
+            if (completedTodo.includes(el)) {
+                completedTodos.splice(index, 1);
+            }
+        });
+        
+        localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
+
+    }
+
+    // static getTotalTodos() {
+    //     let totalTodos;
+        
+    //     if ((localStorage.getItem('totalTodos')) === null) {
+    //         totalTodos = localStorage.setItem('totalTodos', '0');
+    //     }
+    //     else {
+    //         totalTodos = localStorage.setItem('totalTodos', totalTodos);
+    //     }
+
+    //     console.log(totalTodos);
+
+    //     return totalTodos;
+    // }
+
+    // static updateTotalTodos() {
+    //     let totalTodos = Store.getTotalTodos();
+    //     let completedTodos = Store.getCompletedTodos();
+
+    //     totalTodos = parseInt(localStorage.getItem('totalTodos'));
+    //     totalTodos++;
+    //     localStorage.setItem('totalTodos', totalTodos.toString());
+
+    // }
+}
