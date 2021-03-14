@@ -41,3 +41,6 @@ li {
     font-size: 30px;
 }
 
+.todo, .username {
+    word-wrap: break-word;
+}
