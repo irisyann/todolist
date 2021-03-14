@@ -19,7 +19,28 @@ inputName.addEventListener('submit', e => {
     todoapp.classList.remove('d-none');
     todoapp.classList.add('d-block');
     
-    if (name.toLowerCase() === 'taki') {
+    if (name.toLowerCase() === 'noah') {
+        greeting.textContent = 'HI PUNDE :> LETS GET SHIT DONE';
+
+        const htmlTodos = `
+        <li class="list-group-item">
+            <i class="far fa-check-circle check"></i>
+            <span class="todo ml-1">Give Iris love</span>
+        </li>
+        <li class="list-group-item">
+            <i class="far fa-check-circle check"></i>
+            <span class="todo ml-1">Video call Iris</span>
+        </li>
+        <li class="list-group-item">
+            <i class="far fa-check-circle check"></i>
+            <span class="todo ml-1">Take pic send to Iris</span>
+        </li>
+        `
+
+        todolist.innerHTML += htmlTodos;
+
+    }
+    else if (name.toLowerCase() === 'taki') {
         greeting.textContent = 'Yo STOOPID! Stoopid stoopid stoopid';
 
         const htmlGreeting = `
@@ -43,7 +64,6 @@ inputName.addEventListener('submit', e => {
         `
         todoapp.querySelector('.bird-space').innerHTML += htmlGreeting;
         todolist.innerHTML += htmlTodos;
-        
     }
     else {
         greeting.querySelector('span').textContent = name;
