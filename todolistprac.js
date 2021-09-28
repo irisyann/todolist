@@ -278,29 +278,4 @@ class Store {
         localStorage.setItem('completedTodos', JSON.stringify(completedTodos));
 
     }
-
-    // static getTotalTodos() {
-    //     let totalTodos;
-        
-    //     if ((localStorage.getItem('totalTodos')) === null) {
-    //         totalTodos = localStorage.setItem('totalTodos', '0');
-    //     }
-    //     else {
-    //         totalTodos = localStorage.setItem('totalTodos', totalTodos);
-    //     }
-
-    //     console.log(totalTodos);
-
-    //     return totalTodos;
-    // }
-
-    // static updateTotalTodos() {
-    //     let totalTodos = Store.getTotalTodos();
-    //     let completedTodos = Store.getCompletedTodos();
-
-    //     totalTodos = parseInt(localStorage.getItem('totalTodos'));
-    //     totalTodos++;
-    //     localStorage.setItem('totalTodos', totalTodos.toString());
-
-    // }
 }
