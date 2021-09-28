@@ -31,12 +31,7 @@ document.addEventListener('DOMContentLoaded', e => {
 }); 
 
 const checkName = () => {
-    if (localStorage.getItem('name').toLowerCase().includes('noah')) {
-        greeting.textContent = 'HI PUNDE :> LETS GET SHIT DONE';
-
-    } else if (localStorage.getItem('name').toLowerCase().includes('taki')) {
-        greeting.textContent = 'YO STOOPID! STOOPID STOOPID STOOPID';
-
+  
     }
     else {
         greeting.querySelector('span').textContent = localStorage.getItem('name');
@@ -50,53 +45,7 @@ inputName.addEventListener('submit', e => {
     const name = inputName.name.value.trim();
 
     localStorage.setItem('name', name);  
-
-    checkName();
-    if (localStorage.getItem('name').toLowerCase().includes('noah')) {
-
-        const htmlTodos = `
-        <li class="list-group-item">
-            <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Give Iris love</span>
-        </li>
-        <li class="list-group-item">
-            <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Video call Iris</span>
-        </li>
-        <li class="list-group-item">
-            <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Take pic send to Iris</span>
-        </li>
-        `
-        var htmlArr = htmlTodos.split("</li>");
-        htmlArr.pop(); // remove last element which is empty because of the way this array is split lol
-        htmlArr.forEach(html => {
-            Store.addTodo(html);
-        })
-    }
-
-    else if (localStorage.getItem('name').toLowerCase().includes('taki')) {
-
-        const htmlTodos = `
-        <li class="list-group-item">
-            <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Drink air suam</span>
-        </li>
-        <li class="list-group-item">
-            <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">Eat roti telur</span>
-        </li>
-        <li class="list-group-item">
-            <i class="far fa-check-circle check"></i>
-            <span class="todo ml-1">FREAKING REST</span>
-        </li>
-        `
-        var htmlArr = htmlTodos.split("</li>");
-        htmlArr.pop(); // remove last element which is empty because of the way this array is split lol
-        htmlArr.forEach(html => {
-            Store.addTodo(html);
-        })
-    }
+    
     document.querySelector('.name-input-container').classList.add('d-none');
     todoapp.classList.remove('d-none');
     todoapp.classList.add('d-block');
@@ -237,37 +186,6 @@ const completionPercentage = () => {
 
     }
 };
-
-// const completionPercentage = (totalCount, completedCount, totalCountDynamic) => {
-//     console.log(totalCount,completedCount)
-//     console.log("dynamic: " + totalCountDynamic);
-//     const zeroCompletion = document.querySelector('.zero-completion');
-//     const hasCompletion = document.querySelector('.has-completion');
-//     const fullCompletion = document.querySelector('.full-completion');
-
-//     let completePercent = Math.round((completedCount / totalCount) * 100); // calculate percentage of how many tasks completed
-
-//     zeroCompletion.style.display = 'none';
-//     if (completePercent === 0) {
-//         zeroCompletion.style.display = 'block';
-//         hasCompletion.style.display = 'none';
-//         fullCompletion.style.display = 'none';
-//         document.querySelector('.completed-todos-title').style.display = 'none';
-        
-//     } else if (completePercent < 100) {
-//         hasCompletion.style.display = 'block';
-//         fullCompletion.style.display = 'none';
-//         document.querySelector('.completed-todos-title').style.display = 'block';
-//         hasCompletion.querySelector('span').textContent = `${completePercent}%`;
-        
-//     } else if (totalCountDynamic === 0) {
-//         hasCompletion.style.display = 'none';
-//         fullCompletion.style.display = 'block';
-//         document.querySelector('.completed-todos-title').style.display = 'block';
-//         fullCompletion.querySelector('span').textContent = `100%`;
-
-//     }
-// };
 
 // remove completed todo from completed list
 completedList.addEventListener('click', e => {
