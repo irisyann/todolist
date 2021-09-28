@@ -31,11 +31,9 @@ document.addEventListener('DOMContentLoaded', e => {
 }); 
 
 const checkName = () => {
-  
-    }
-    else {
-        greeting.querySelector('span').textContent = localStorage.getItem('name');
-    }
+
+    greeting.querySelector('span').textContent = localStorage.getItem('name');
+    
 }
 
 // get name of user
